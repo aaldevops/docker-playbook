@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+  rabbit:
+    image: rabbitmq:3.6
+    ports:
+      - '15672:15672'
+      - '5672:5672'
+  erlang:
+    image: erlang:20.3.8-alpine
+    command: sleep 1000
+  server:
+    image: tomcat:9.0.17-jre8-alpine
+    ports:
+      - '8080:8080' 

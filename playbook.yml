@@ -1,0 +1,28 @@
+-
+ name: installation
+ hosts: all
+ tasks:
+   -
+    name: Copy rpm file to server
+    copy:
+        src: "{{ item }}"
+        dest: /tmp/
+        owner: root
+        mode: 755
+    with_fileglob:
+     - ./files/*
+   -
+    name: Install package.
+    yum:
+        name: [ '/tmp/docker-ce-cli-18.09.4-3.el7.x86_64.rpm', '/tmp/docker-ce-18.09.4-3.el7.x86_64.rpm', '/tmp/docker-compose-1.18.0-2.el7.noarch.rpm' ]
+        state: present
+   - name: Ensure docker deamon is running
+     service:
+        name: docker
+        state: started
+   -
+    name: run compose using shell 
+    command: docker-compose -f /tmp/docker-compose.yml up -d 
+
+
+
